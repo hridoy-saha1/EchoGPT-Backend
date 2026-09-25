@@ -1,4 +1,3 @@
-
 import {
   Controller,
   Post,
@@ -10,7 +9,7 @@ import {
 
 import { AuthService } from './auth.service.js';
 import { RegisterDto } from './dto/register.dto.js';
-import { LoginDto } from './dto/login.dto.js';
+import { LoginDto, RefreshTokenDto } from './dto/login.dto.js';
 
 @Controller('auth')
 export class AuthController {
@@ -28,4 +27,16 @@ export class AuthController {
   login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
   }
+
+  @Post('refresh')
+  @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
+  refreshToken(@Body() dto: RefreshTokenDto) {
+    return this.authService.refreshToken(dto);
+  }
+
+    @Post('logout')
+    @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
+    logout(@Body() dto: RefreshTokenDto) {
+        return this.authService.logout(dto);
+    }
 }

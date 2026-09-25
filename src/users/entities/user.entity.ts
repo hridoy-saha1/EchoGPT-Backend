@@ -4,8 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
+  OneToMany
 } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { Session } from '../../sessions/entities/session.entity.js';
 
 @Entity('users')
@@ -35,5 +36,5 @@ export class User {
   updatedAt: Date;
 
   @OneToMany(() => Session, (session) => session.user)
-  sessions: Session[];
+  sessions: Relation<Session[]>;
 }
