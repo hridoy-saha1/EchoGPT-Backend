@@ -6,14 +6,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module.js';
 import { UsersModule } from './users/users.module.js';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module.js';
+import { UserSubscriptionsModule } from './user-subscriptions/user-subscriptions.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    AuthModule,
-    UsersModule,
+   
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -24,6 +25,10 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       autoLoadEntities: true,
       synchronize: true,
     }),
+     AuthModule,
+    UsersModule,
+    SubscriptionsModule,
+    UserSubscriptionsModule,
   
   ],
   controllers: [AppController],
