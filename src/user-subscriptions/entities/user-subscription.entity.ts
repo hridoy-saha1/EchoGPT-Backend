@@ -38,3 +38,12 @@ export class UserSubscription {
     @UpdateDateColumn()
     updatedAt: Date;
 }
+
+
+import { IsNotEmpty, IsUUID } from 'class-validator';
+
+export class UpdateUserSubscriptionDto {
+  @IsUUID()
+  @IsNotEmpty()
+  subscriptionId: string;
+}

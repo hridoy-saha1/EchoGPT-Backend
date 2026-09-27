@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
@@ -9,6 +9,7 @@ import { UsersService } from '../users/users.service.js';
 import { RegisterDto } from './dto/register.dto.js';
 import { LoginDto, RefreshTokenDto } from './dto/login.dto.js';
 import { Session } from '../sessions/entities/session.entity.js';
+import { UserSubscriptionsService } from '../user-subscriptions/user-subscriptions.service.js';
 
 @Injectable()
 export class AuthService {
@@ -21,10 +22,41 @@ export class AuthService {
     private sessionRepository: Repository<Session>,
 
     private readonly jwtService: JwtService,
+    private readonly userSubscriptionsService: UserSubscriptionsService,
   ) {}
 
-  async register(dto: RegisterDto): Promise<object> {
-    return this.usersService.createUser(dto);
+  async register(dto: RegisterDto) {
+    const existingUser = await this.userRepository.findOne({
+      where: { email: dto.email },
+    });
+
+    if (existingUser) {
+      throw new ConflictException('Email already exists');
+    }
+
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
+
+    const user = this.userRepository.create({
+      name: dto.name,
+      email: dto.email,
+      password: hashedPassword,
+    });
+
+    const savedUser = await this.userRepository.save(user);
+
+    await this.userSubscriptionsService.createUserSubscription(savedUser.id, {
+      subscriptionId: 'fb42983f-3ca4-4c2a-b9e3-0e0ed76c7bc3',
+    });
+
+    return {
+      message: 'User registered successfully',
+      data: {
+        id: savedUser.id,
+        name: savedUser.name,
+        email: savedUser.email,
+        role: savedUser.role,
+      },
+    };
   }
 
   async login(dto: LoginDto) {

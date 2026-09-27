@@ -7,6 +7,7 @@ import {
   UsePipes,
   ValidationPipe,
   Request,
+  Req,
 } from '@nestjs/common';
 import { UserSubscriptionsService } from './user-subscriptions.service.js';
 import { CreateUserSubscriptionDto } from './dto/create-user-subscription.dto.js';
@@ -39,5 +40,11 @@ export class UserSubscriptionsController {
   @UseGuards(JwtAuthGuard)
   async useRequest(@Request() req: { user: { id: string } }) {
     return this.userSubscriptionsService.useRequest(req.user.id);
+  }
+
+  @Get('remaining-requests')
+  @UseGuards(JwtAuthGuard)
+  getRemainingRequests(@Req() req: { user: { id: string } }) {
+    return this.userSubscriptionsService.getRemainingRequests(req.user.id);
   }
 }

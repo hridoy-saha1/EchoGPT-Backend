@@ -11,11 +11,13 @@ import { User } from '../users/entities/user.entity.js';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy.js';
 import { Session } from '../sessions/entities/session.entity.js';
+import { UserSubscriptionsModule } from '../user-subscriptions/user-subscriptions.module.js';
 
 @Module({
   imports: [
     ConfigModule,
     UsersModule,
+    UserSubscriptionsModule,
     TypeOrmModule.forFeature([User, Session]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
