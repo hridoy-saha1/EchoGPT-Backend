@@ -252,4 +252,28 @@ export class AIProvidersService {
       message: 'Provider is enabled and configured',
     };
   }
+
+  async getProviderForChat(providerName: string) {
+    const provider = await this.aiProviderRepository
+      .createQueryBuilder('provider')
+      .addSelect('provider.apiKeyEncrypted')
+      .where('provider.providerName = :providerName', {
+        providerName,
+      })
+      .andWhere('provider.isEnabled = :isEnabled', {
+        isEnabled: true,
+      })
+      .getOne();
+
+    if (!provider) {
+      throw new NotFoundException('AI Provider not found or disabled');
+    }
+
+    return {
+      id: provider.id,
+      providerName: provider.providerName,
+      modelName: provider.modelName,
+      apiKey: this.encryptionService.decrypt(provider.apiKeyEncrypted),
+    };
+  }
 }

@@ -10,6 +10,7 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module.js';
 import { UserSubscriptionsModule } from './user-subscriptions/user-subscriptions.module.js';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AIProvidersModule } from './ai-providers/ai-providers.module.js';
+import { ChatModule } from './chat/chat.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -32,6 +33,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     SubscriptionsModule,
     UserSubscriptionsModule,
     AIProvidersModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
