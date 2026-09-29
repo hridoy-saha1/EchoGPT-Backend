@@ -6,7 +6,7 @@ import { ChatHistory } from './entities/chat-history.entity/chat-history.entity.
 import { AIProvidersModule } from '../ai-providers/ai-providers.module.js';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ChatHistory,AIProvidersModule])],
+  imports: [TypeOrmModule.forFeature([ChatHistory]), AIProvidersModule],
   controllers: [ChatController],
   providers: [ChatService],
 })

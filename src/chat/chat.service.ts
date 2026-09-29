@@ -96,11 +96,14 @@ export class ChatService {
         },
       );
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error('OpenAI API request failed');
+        const errorDetails = await response.text();
+
+        console.error('OpenAI API Error:', response.status, errorDetails);
+
+        throw new Error(`OpenAI API request failed: ${response.status}`);
       }
+      const data = await response.json();
 
       return data.choices[0].message.content;
     }
@@ -130,11 +133,14 @@ export class ChatService {
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error('Anthropic API request failed');
+        const errorDetails = await response.text();
+
+        console.error('Anthropic API Error:', response.status, errorDetails);
+
+        throw new Error(`Anthropic API request failed: ${response.status}`);
       }
+      const data = await response.json();
 
       return data.content[0].text;
     }
@@ -162,11 +168,14 @@ export class ChatService {
         },
       );
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error('Google Gemini API request failed');
+        const errorDetails = await response.text();
+
+        console.error('Gemini API Error:', response.status, errorDetails);
+
+        throw new Error(`Google Gemini API request failed: ${response.status}`);
       }
+      const data = await response.json();
 
       return data.candidates[0].content.parts[0].text;
     }
