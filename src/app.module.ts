@@ -12,6 +12,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { AIProvidersModule } from './ai-providers/ai-providers.module.js';
 import { ChatModule } from './chat/chat.module.js';
 import { WebSearchModule } from './web-search/web-search.module.js';
+import { AdminModule } from './admin/admin.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -36,6 +37,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     AIProvidersModule,
     ChatModule,
     WebSearchModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
