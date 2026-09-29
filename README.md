@@ -72,12 +72,13 @@ Create a `.env` file in the project root.
 ```env
 PORT=3000
 
-DATABASE_URL=postgresql://username:password@localhost:5432/echogpt
-
-JWT_SECRET=your_jwt_secret
-JWT_REFRESH_SECRET=your_refresh_secret
-
-AI_PROVIDER_ENCRYPTION_KEY=your_32_byte_hex_key
+JWT_SECRET=echogpt_super_secret_key
+AI_PROVIDER_ENCRYPTION_KEY=96c4b87be730374597107f7700eb9ad76cbeabc473604d22483c1c4c74092508
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=hridoy
+DB_DATABASE=echogpt_db
 ```
 
 Add any other environment variables required by your application.
